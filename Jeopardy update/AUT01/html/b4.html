@@ -1,0 +1,87 @@
+<div class="text-center pan1 ">
+  <div class="mx-auto content-ncnt">
+    <div class="mx-auto my-auto h-100 ">
+      <div class="row mx-auto h-100">
+        <div class="col-12 p-0 mx-auto my-auto h-100">
+          <div id="pasos" class="h-100">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="audios_DL"><source type="audio/mp3"></audio>
+<a id="pdf" href="" download></a>
+
+<script>
+  $('document').ready(function() {
+    $('.next').addClass('clickDisabled');
+
+    var audios_DL = document.getElementById('audios_DL');
+    var audios_DL_index = 1;
+
+    function startAudioDL(path, index) {
+      $('#audios_DL').attr('src', 'AUT01/audio/' + path + '.mp3');
+      audios_DL_index = index;
+      audios_DL.load();
+      audios_DL.play();
+    }
+
+    function cargarSVG(svgCount) {
+      $.ajax({
+        url: 'AUT01/images/svg/b4-01.svg',
+        type: 'GET',
+        error: function(xhr, status) {
+
+        },
+        complete: function(xhr, status) {
+          $('#pasos').html(xhr.responseText);
+          svg();
+        }
+      })
+    }
+
+    cargarSVG();
+
+    videoG = false;
+    audioDL = true;
+
+    function svg() {
+
+      function playVideo(video,index){
+        videoIndex = index;
+        videoG = true;
+        audiosDL = false;
+        $('#recvideo,#fdovideo,#overlay').show();
+        //$('#playvideo').show().attr('class','cursor');
+        $('#video_gral').removeClass('forzar').attr('src','AUT01/video/'+video+'.mp4');
+        video_gral.play();
+        $('#dc-video').hide();
+      };
+
+      $('#video_gral').bind('contextmenu',function() { return false; });
+
+      playVideo('Arcelor_Video_3_corte_A_comp',1);
+
+      $('#video_gral').bind('ended',function(){
+        $('#recvideo,#playvideo,#dc,#fdovideo').hide();
+        $('#btn').show().attr('class','next');
+        $('#dc').show().attr('class','flasheo');
+      });
+
+      video_gral.addEventListener("timeupdate", function() {
+        if (this.currentTime >= 33.5) {
+          $('#btn1').fadeIn().attr('class','next');
+        } 
+      }, false);
+
+      $('#btn1').on('click', function(){
+        $('#btn1').hide();
+        $('#btn1r').show();
+      })
+
+    }
+
+  });
+</script>

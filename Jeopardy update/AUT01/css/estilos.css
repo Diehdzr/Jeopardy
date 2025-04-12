@@ -1,0 +1,144 @@
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #e0ebf4 !important;
+  background-size: cover;
+  min-width: 1024px;
+  min-height: 600px; }
+
+.logo, .carlos, .contenedor_control {
+  position: absolute; }
+  .logo img, .carlos img, .contenedor_control img {
+    width: 100%; }
+
+.negro {
+  background: url(../images/negro.png);
+  z-index: 9999;
+  position: relative; }
+
+.primer {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px; }
+  .primer a {
+    font-size: 50px;
+    color: #fff; }
+
+.precarga {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  margin: -50px 0 0 -50px;
+  color: #fff; }
+  .precarga i {
+    position: absolute; }
+  .precarga .engranes1 {
+    top: 0;
+    left: 36px;
+    font-size: 50px; }
+  .precarga .engranes2 {
+    top: 30px;
+    left: 12px;
+    font-size: 32px; }
+  .precarga .engranes3 {
+    top: 34px;
+    right: 5px;
+    font-size: 26px; }
+
+.logo {
+  top: 10px;
+  left: 0;
+  width: 10%;
+  z-index: 999; }
+
+.carlos {
+  top: 20px;
+  right: 20px;
+  width: 150px;
+  z-index: 999; }
+
+.contenedor {
+  width: 1024px;
+  height: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -250px 0 0 -512px; }
+
+.wrapper {
+  min-width: 1024px;
+  min-height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+
+.book {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #fff;
+  width: 100%; }
+  .book .marcador {
+    width: 50%;
+    padding: 5px;
+    background: #00a58e;
+    -webkit-box-shadow: inset 0 0 4px 1px #008472;
+    box-shadow: inset 0 0 4px 1px #008472;
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -ms-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out; }
+
+/*.contenedor_control{
+	z-index: 1000;
+	position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -350px;
+    z-index: 10;
+
+	a{
+		display: inline-block;
+		position: absolute;
+		font-size: 30px;
+		color: #0a5b7f;
+		text-shadow: 0 2px 0 #FFFFFF;
+	}
+	.left, .right, .refresh, .next{
+		cursor: pointer;
+		position: absolute;
+		bottom: 5px;
+		left: 35px;
+	}
+	.right, {
+		left: 93px;
+	}
+	.refresh{
+		left: 144px;
+		cursor: pointer;
+	}
+}*/
+.ocultar, .next{
+  cursor: pointer; }
+
+.uno, .dos {
+  display: none; }
+
+/*.bandera{
+	position: absolute;
+	right: 75px;
+	bottom: 39px;
+}*/
