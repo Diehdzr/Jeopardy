@@ -59,11 +59,11 @@
    <rect x="372" y="570" width="158" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
  </g>
 
- <g id="btn-rojo" class="btn-pregunta" cursor="pointer">
+ <g id="btn-rojo-rcDulceGoma-500" class="btn-pregunta" cursor="pointer">
    <rect x="602" y="570" width="155" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
  </g>
 
- <g id="btn-azul" class="btn-pregunta" cursor="pointer">
+ <g id="btn-azul-rcDulceGoma-500" class="btn-pregunta" cursor="pointer">
    <rect x="800" y="570" width="158" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
  </g>
 

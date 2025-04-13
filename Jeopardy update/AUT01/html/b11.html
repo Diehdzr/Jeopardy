@@ -1,3 +1,5 @@
+<script src="AUT01/js/puntuacion.js"></script>
+
 <div class="text-center pan1 ">
   <div class="mx-auto content-ncnt">
     <div class="mx-auto my-auto h-100 ">
@@ -15,67 +17,47 @@
 <a id="pdf" href="" download></a>
 
 <script>
-  $('document').ready(function() {
-    $('.next').addClass('clickDisabled');
+(function iniciarSlideFinal() {
+  $.ajax({
+    url: 'AUT01/images/svg/b11-01.svg',
+    type: 'GET',
+    dataType: 'text',
+    success: function (svgContent) {
+      $('#pasos').html(svgContent);
 
-    var audios_DL = document.getElementById('audios_DL');
-    var audios_DL_index = 1;
+      setTimeout(() => {
+        const puntosAzules = window.puntosAzules || 0;
+        const puntosRojos = window.puntosRojos || 0;
 
-    function startAudioDL(path, index) {
-      $('#audios_DL').attr('src', 'AUT01/audio/' + path + '.mp3');
-      audios_DL_index = index;
-      audios_DL.load();
-      audios_DL.play();
-    }
-
-    function cargarSVG(svgCount) {
-      $.ajax({
-        url: 'AUT01/images/svg/b11-01.svg',
-        type: 'GET',
-        error: function(xhr, status) {
-
-        },
-        complete: function(xhr, status) {
-          $('#pasos').html(xhr.responseText);
-          svg();
+        if (puntosAzules === puntosRojos) {
+          $('#empate').show();
+        } else if (puntosAzules > puntosRojos) {
+          $('#azul').show();
+        } else {
+          $('#rojo').show();
         }
-      })
+
+        $('#marcadorAzul').html(puntosAzules);
+        $('#marcadorRojo').html(puntosRojos);
+
+        no_slide = 11;
+        scormSetSlide(no_slide);
+
+        $('#btn').fadeIn().attr('class', 'next');
+        $('#dc').fadeIn().attr('class', 'flasheo');
+
+        $('#btn').on('click', function () {
+          $('#btn').hide();
+          $('#btnr').show();
+
+          $('.next').trigger('click');
+        });
+
+      }, 50);
+    },
+    error: function () {
+      console.error('No se pudo cargar el SVG');
     }
-
-    cargarSVG();
-
-    videoG = false;
-    audioDL = true;
-
-    function svg() {
-
-      if(puntosAzules == puntosRojos){
-        $('#empate').show();
-      }
-
-      if(puntosAzules > puntosRojos){
-        $('#azul').show();
-      }
-
-      if(puntosAzules < puntosRojos){
-        $('#rojo').show();
-      }
-
-      $('#marcadorAzul').html(puntosAzules)
-      $('#marcadorRojo').html(puntosRojos)
-
-      setTimeout(function(){
-        $('#btn').fadeIn().attr('class','next');
-        $('#dc').fadeIn().attr('class','flasheo');
-      },1000);
-
-      $('#btn').on('click',function() {
-        $('#btn').hide();
-        $('#btnr').show();
-      })
-
-
-    }
-
   });
+})();
 </script>
