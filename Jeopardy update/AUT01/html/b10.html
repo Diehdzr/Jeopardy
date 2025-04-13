@@ -1,10 +1,38 @@
-<div class="text-center pan1 ">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tablero Jeopardy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    body, html {
+      margin: 0;
+      height: 100%;
+      background: #f4f8fc;
+    }
+
+    #pasos {
+      width: 100%;
+      height: 100%;
+    }
+
+    .clickDisabled {
+      pointer-events: none;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="text-center pan1">
   <div class="mx-auto content-ncnt">
-    <div class="mx-auto my-auto h-100 ">
+    <div class="mx-auto my-auto h-100">
       <div class="row mx-auto h-100">
         <div class="col-12 p-0 mx-auto my-auto h-100">
-          <div id="pasos" class="h-100">
-          </div>
+          <div id="pasos" class="h-100"></div>
         </div>
       </div>
     </div>
@@ -15,144 +43,243 @@
 <a id="pdf" href="" download></a>
 
 <script>
-  $('document').ready(function() {
-    $('.next').addClass('clickDisabled');
+let preguntasUsadas = [];
+let ultimoBotonUsado = '';
+let puntosAzules = 0;
+let puntosRojos = 0;
 
-    var audios_DL = document.getElementById('audios_DL');
-    var audios_DL_index = 1;
+$(document).ready(function () {
+  cargarSVG();
 
-    function startAudioDL(path, index) {
-      $('#audios_DL').attr('src', 'AUT01/audio/' + path + '.mp3');
-      audios_DL_index = index;
-      audios_DL.load();
-      audios_DL.play();
+  function cargarSVG() {
+    $.ajax({
+      url: 'AUT01/images/svg/b10-01.svg',
+      type: 'GET',
+      complete: function(xhr) {
+        $('#pasos').html(xhr.responseText);
+        svg(); // lógica de puntos, cronómetro, etc.
+        activarBotonesDePregunta(); // lógica personalizada para preguntas tipo Jeopardy
+      }
+    });
+  }
+
+  function activarBotonesDePregunta() {
+  $('[id^=btn-]').off().on('click', function () {
+    const id = $(this).attr('id');
+    const partes = id.replace('btn-', '').split('-');
+    const base = partes[0];     // ej. raChocolates
+    const puntos = partes[1];   // ej. 100
+
+    ultimoBotonUsado = id;
+    cargarPreguntaSVG(base, puntos);
+  });
+}
+
+
+
+function cargarPreguntaSVG(nombreArchivo, puntos) {
+  const file = `AUT01/images/svg/${nombreArchivo}_${puntos}.svg`;
+  console.log("Cargando:", file);
+
+  $.ajax({
+    url: file,
+    type: 'GET',
+    dataType: 'text', // 👈 fuerza texto plano
+    success: function (data) {
+      $('#pasos').html(data); // inserta el SVG
+
+      setTimeout(() => {
+        console.log("Activando botones internos del SVG");
+
+        // Todos los botones que empiezan con btn-
+        $('[id^=btn-]').off().on('click', function () {
+          const id = $(this).attr('id');
+          console.log('Click en', id);
+
+          // 🔓 Mostrar respuesta
+          if (id.startsWith('btn-dsc')) {
+            console.log('🔓 Revelando la respuesta');
+            $('#reveal-cover').fadeOut(300);
+            return;
+          }
+
+          // ✅ Guardar botón como usado (una sola vez)
+          if (!preguntasUsadas.includes(ultimoBotonUsado)) {
+            preguntasUsadas.push(ultimoBotonUsado);
+          }
+
+          // ⏪ Volver al tablero
+          volverAlTablero();
+        });
+      }, 50);
+    },
+    error: function () {
+      alert("No se pudo cargar la pregunta: " + file);
     }
+  });
 
-    function cargarSVG(svgCount) {
-      $.ajax({
-        url: 'AUT01/images/svg/b10-01.svg',
-        type: 'GET',
-        error: function(xhr, status) {
+  // ⚠️ Actualizamos fuera del AJAX por si lo necesitas antes
+  ultimoBotonUsado = `btn-${nombreArchivo}-${puntos}`;
+}
 
-        },
-        complete: function(xhr, status) {
-          $('#pasos').html(xhr.responseText);
+
+
+function volverAlTablero() {
+  const file = 'AUT01/images/svg/b10-01.svg';
+  console.log("Volviendo al tablero:", file);
+
+  $.ajax({
+    url: file,
+    type: 'GET',
+    dataType: 'text',
+    success: function (data) {
+      $('#pasos').html(data);
+
+      setTimeout(() => {
+        console.log("Reactivando botones del tablero");
+
+        activarBotonesDePregunta();
+
+        if (typeof svg === 'function') {
           svg();
         }
-      })
-    }
 
-    cargarSVG();
+        // 🔁 Tapa TODAS las preguntas ya usadas
+        preguntasUsadas.forEach(id => {
+          const svg = document.querySelector('#pasos svg');
+          const btnGroup = svg.querySelector(`#${id}`);
+          const rect = btnGroup?.querySelector('rect');
 
-    videoG = false;
-    audioDL = true;
-
-    function svg() {
-
-      var tiempo = 30;
-      var id = 0;
-      var grupo = 0;
-      var puntos = 0;
-      var contador = 0;
-
-      $('#marcadorAzul').html('0')
-      $('#marcadorRojo').html('0')
-
-      function countDown(){
-        $('#cd,#CDB').show();
-
-        cronometro = setInterval(function(){
-          
-          if(tiempo == 0){
-            clearInterval(cronometro);
-          } else{
-            tiempo = tiempo - 1; 
-            $('#countDown').html(tiempo);
+          if (!rect || !btnGroup) {
+            console.warn('No se encontró el botón en el SVG:', id);
+            return;
           }
-          console.log(tiempo)
-        },1000);
-      }
 
-      function reset(){
-        $('#overlay,#controles,[id^=pop],#cd,#CDB').hide();
-        $('#ma,#mr').show();
-        id = 0;
-        grupo = 0;
-        tiempo = 30;
-        clearInterval(cronometro);
-        $('#countDown').html('30');
-      }
+          const x = rect.getAttribute('x');
+          const y = rect.getAttribute('y');
+          const width = rect.getAttribute('width');
+          const height = rect.getAttribute('height');
 
-      function timeOut(){
-        
-      }
+          const overlayRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          overlayRect.setAttribute("x", x);
+          overlayRect.setAttribute("y", y);
+          overlayRect.setAttribute("width", width);
+          overlayRect.setAttribute("height", height);
+          overlayRect.setAttribute("fill", "#5f27cd"); // morado
+          overlayRect.setAttribute("opacity", "1.0");
 
-      function checar(){
-        if(contador == 25){
-          $('#t1').attr('class','next').click();
+          btnGroup.parentNode.appendChild(overlayRect);
+          btnGroup.style.pointerEvents = 'none';
+          btnGroup.style.cursor = 'default';
+        });
+      }, 50);
+    },
+    error: function () {
+      console.error("No se pudo volver al tablero");
+    }
+  });
+}
+
+
+
+  function startAudioDL(path, index) {
+    $('#audios_DL').attr('src', 'AUT01/audio/' + path + '.mp3');
+    audios_DL_index = index;
+    audios_DL.load();
+    audios_DL.play();
+  }
+
+  function svg() {
+    var tiempo = 30;
+    var id = 0;
+    var grupo = 0;
+    var puntos = 0;
+    var contador = 0;
+
+    $('#marcadorAzul').html('0');
+    $('#marcadorRojo').html('0');
+
+    function countDown(){
+      $('#cd,#CDB').show();
+      cronometro = setInterval(function(){
+        if(tiempo == 0){
+          clearInterval(cronometro);
+        } else {
+          tiempo = tiempo - 1;
+          $('#countDown').html(tiempo);
         }
-      }
-
-      function valores(){
-        $('#marcadorAzul').html(puntosAzules);
-        $('#marcadorRojo').html(puntosRojos);
-      }
-
-      $('[id^=sel],[id^=res],#cd,#CDB').hide();
-
-      $('[id^=pr]').attr('class','cursor').on('click',function(){
-        numberItem = $(this).attr('id').split('-'); 
-        id = parseInt(numberItem[1],10);
-        grupo = $(this).data('grupo');
-        puntos = $(this).data('puntos');
-
-        $('#sel'+grupo+'-'+id).show();
-
-        $('#overlay,#controles').show();
-
-        $('#descubrirR,#btnEAR,#btnERR,#incorrecto,#btnEA,#btnER,#incorrectoR,#ma,#mr').hide();
-
-        $('#descubrir').show().attr('class','cursor');
-
-        $('#pop'+grupo+'-'+id).show();
-
-        countDown();
-
-        contador++;
-      })
-
-      $('#descubrir').on('click',function(){
-        $('#res'+grupo+'-'+id).show();
-        $('#incorrecto,#btnEA,#btnER').show().attr('class','cursor');
-        clearInterval(cronometro);
-      })
-
-      $('#incorrecto').on('click',function(){
-        reset();
-        checar();
-        startAudioDL('incorrecto',2);
-      })
-
-      $('#btnEA').on('click',function(){
-        puntosAzules = puntosAzules + puntos;
-        console.log('puntos azules '+puntosAzules);
-        valores();
-        reset();
-        checar();
-        startAudioDL('correcto',1);
-      })
-
-      $('#btnER').on('click',function(){
-        puntosRojos = puntosRojos + puntos;
-        console.log('puntos rojos '+puntosRojos);
-        valores();
-        reset();
-        checar();
-        startAudioDL('correcto',1);
-      })
-
-
+      },1000);
     }
 
-  });
+    function reset(){
+      $('#overlay,#controles,[id^=pop],#cd,#CDB').hide();
+      $('#ma,#mr').show();
+      id = 0;
+      grupo = 0;
+      tiempo = 30;
+      clearInterval(cronometro);
+      $('#countDown').html('30');
+    }
+
+    function checar(){
+      if(contador == 25){
+        $('#t1').attr('class','next').click();
+      }
+    }
+
+    function valores(){
+      $('#marcadorAzul').html(puntosAzules);
+      $('#marcadorRojo').html(puntosRojos);
+    }
+
+    $('[id^=sel],[id^=res],#cd,#CDB').hide();
+
+    $('[id^=pr]').attr('class','cursor').on('click',function(){
+      numberItem = $(this).attr('id').split('-');
+      id = parseInt(numberItem[1],10);
+      grupo = $(this).data('grupo');
+      puntos = $(this).data('puntos');
+
+      $('#sel'+grupo+'-'+id).show();
+      $('#overlay,#controles').show();
+      $('#descubrirR,#btnEAR,#btnERR,#incorrecto,#btnEA,#btnER,#incorrectoR,#ma,#mr').hide();
+      $('#descubrir').show().attr('class','cursor');
+      $('#pop'+grupo+'-'+id).show();
+      countDown();
+      contador++;
+    });
+
+    $('#descubrir').on('click',function(){
+      $('#res'+grupo+'-'+id).show();
+      $('#incorrecto,#btnEA,#btnER').show().attr('class','cursor');
+      clearInterval(cronometro);
+    });
+
+    $('#incorrecto').on('click',function(){
+      reset();
+      checar();
+      startAudioDL('incorrecto',2);
+    });
+
+    $('#btnEA').on('click',function(){
+      puntosAzules += puntos;
+      valores();
+      reset();
+      checar();
+      startAudioDL('correcto',1);
+    });
+
+    $('#btnER').on('click',function(){
+      puntosRojos += puntos;
+      valores();
+      reset();
+      checar();
+      startAudioDL('correcto',1);
+    });
+  }
+
+});
 </script>
+
+</body>
+</html>

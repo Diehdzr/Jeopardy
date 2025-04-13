@@ -11,87 +11,87 @@ function revealAnswer() {
 ]]&gt;
 </script>
 <!-- CATEGORÍA A -->
-<g id="btn-a-100" class="btn-pregunta" cursor="pointer">
+<g id="btn-raChocolates-100" class="btn-pregunta" cursor="pointer">
   <rect x="111" y="355" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-a-200" class="btn-pregunta" cursor="pointer">
+<g id="btn-raChocolates-200" class="btn-pregunta" cursor="pointer">
   <rect x="111" y="412" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-a-300" class="btn-pregunta" cursor="pointer">
+<g id="btn-raChocolates-300" class="btn-pregunta" cursor="pointer">
   <rect x="111" y="468" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-a-400" class="btn-pregunta" cursor="pointer">
+<g id="btn-raChocolates-400" class="btn-pregunta" cursor="pointer">
   <rect x="111" y="524" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-a-500" class="btn-pregunta" cursor="pointer">
+<g id="btn-raChocolates-500" class="btn-pregunta" cursor="pointer">
   <rect x="111" y="580" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
 
 <!-- CATEGORÍA B -->
-<g id="btn-b-100" class="btn-pregunta" cursor="pointer">
+<g id="btn-rbEnchilados-100" class="btn-pregunta" cursor="pointer">
   <rect x="359" y="355" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-b-200" class="btn-pregunta" cursor="pointer">
+<g id="btn-rbEnchilados-200" class="btn-pregunta" cursor="pointer">
   <rect x="359" y="412" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-b-300" class="btn-pregunta" cursor="pointer">
+<g id="btn-rbEnchilados-300" class="btn-pregunta" cursor="pointer">
   <rect x="359" y="468" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-b-400" class="btn-pregunta" cursor="pointer">
+<g id="btn-rbEnchilados-400" class="btn-pregunta" cursor="pointer">
   <rect x="359" y="524" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-b-500" class="btn-pregunta" cursor="pointer">
+<g id="btn-rbEnchilados-500" class="btn-pregunta" cursor="pointer">
   <rect x="359" y="580" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
 
 <!-- CATEGORÍA C -->
-<g id="btn-c-100" class="btn-pregunta" cursor="pointer">
+<g id="btn-rcDulceGoma-100" class="btn-pregunta" cursor="pointer">
   <rect x="618" y="355" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-c-200" class="btn-pregunta" cursor="pointer">
+<g id="btn-rcDulceGoma-200" class="btn-pregunta" cursor="pointer">
   <rect x="618" y="412" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-c-300" class="btn-pregunta" cursor="pointer">
+<g id="btn-rcDulceGoma-300" class="btn-pregunta" cursor="pointer">
   <rect x="618" y="468" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-c-400" class="btn-pregunta" cursor="pointer">
+<g id="btn-rcDulceGoma-400" class="btn-pregunta" cursor="pointer">
   <rect x="618" y="524" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-c-500" class="btn-pregunta" cursor="pointer">
+<g id="btn-rcDulceGoma-500" class="btn-pregunta" cursor="pointer">
   <rect x="618" y="580" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
 
 <!-- CATEGORÍA D -->
-<g id="btn-d-100" class="btn-pregunta" cursor="pointer">
+<g id="btn-rdVentas-100" class="btn-pregunta" cursor="pointer">
   <rect x="868" y="355" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-d-200" class="btn-pregunta" cursor="pointer">
+<g id="btn-rdVentas-200" class="btn-pregunta" cursor="pointer">
   <rect x="868" y="412" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-d-300" class="btn-pregunta" cursor="pointer">
+<g id="btn-rdVentas-300" class="btn-pregunta" cursor="pointer">
   <rect x="868" y="468" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-d-400" class="btn-pregunta" cursor="pointer">
+<g id="btn-rdVentas-400" class="btn-pregunta" cursor="pointer">
   <rect x="868" y="524" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-d-500" class="btn-pregunta" cursor="pointer">
+<g id="btn-rdVentas-500" class="btn-pregunta" cursor="pointer">
   <rect x="868" y="580" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
 
 <!-- CATEGORÍA E -->
-<g id="btn-e-100" class="btn-pregunta" cursor="pointer">
+<g id="btn-reExhibicion-100" class="btn-pregunta" cursor="pointer">
   <rect x="1121" y="355" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-e-200" class="btn-pregunta" cursor="pointer">
+<g id="btn-reExhibicion-200" class="btn-pregunta" cursor="pointer">
   <rect x="1121" y="412" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-e-300" class="btn-pregunta" cursor="pointer">
+<g id="btn-reExhibicion-300" class="btn-pregunta" cursor="pointer">
   <rect x="1121" y="468" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-e-400" class="btn-pregunta" cursor="pointer">
+<g id="btn-reExhibicion-400" class="btn-pregunta" cursor="pointer">
   <rect x="1121" y="524" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
-<g id="btn-e-500" class="btn-pregunta" cursor="pointer">
+<g id="btn-reExhibicion-500" class="btn-pregunta" cursor="pointer">
   <rect x="1121" y="580" width="75" height="45" fill="transparent" style="pointer-events: all; cursor: pointer;" />
 </g>
 
