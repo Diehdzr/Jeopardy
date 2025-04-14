@@ -66,7 +66,7 @@ $('document').ready(function() {
 
     
     var inicio = true;
-    var totalSlide = 13;
+    var totalSlide = 12;
     var porcentaje = (no_slide * 100) / totalSlide;
 
     if (no_slide > totalSlide) {

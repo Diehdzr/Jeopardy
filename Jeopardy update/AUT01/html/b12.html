@@ -30,7 +30,7 @@
 
     function cargarSVG(svgCount) {
       $.ajax({
-        url: 'AUT01/images/svg/b12-01.svg',
+        url: 'AUT01/images/svg/b13-01.svg',
         type: 'GET',
         error: function(xhr, status) {
 
@@ -49,31 +49,21 @@
 
     function svg() {
 
-      function playVideo(video,index){
-        videoIndex = index;
-        videoG = true;
-        audiosDL = false;
-        $('#recvideo,#fdovideo,#overlay').show();
-        //$('#playvideo').show().attr('class','cursor');
-        $('#video_gral').removeClass('forzar').attr('src','AUT01/video/'+video+'.mp4');
-        video_gral.play();
-        $('#dc-video').hide();
-      };
+      scormScore(100);
 
-      $('#video_gral').bind('contextmenu',function() { return false; });
+      $('#cerrar').show().attr('class', 'cursor');
 
-      playVideo('Arcelor_Video_8_corte_A_comp',1);
+      $('#siguiente').show().attr('class', 'cursor');
 
-      $('#video_gral').bind('ended',function(){
-        $('#recvideo,#playvideo,#dc,#fdovideo').hide();
-        $('#btn').show().attr('class','next');
-        $('#dc').show().attr('class','flasheo');
+      $('#cerrar').click(function () {
+        window.close();
+
       });
 
-      $('#btn').on('click', function(){
-        $('#btn').hide();
-        $('#btnr').show();
-      })
+      $('#siguiente').click(function () {
+        window.close();
+
+      });
 
     }
 
