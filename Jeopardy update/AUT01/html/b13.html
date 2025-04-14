@@ -51,17 +51,18 @@
 
       scormScore(100);
 
-      $('#dc-cerrar').show().attr('class','flasheo') 
-      $('#cerrar').show().attr('class','cursor hover') 
-      $('#cerrar-init').show().attr('class','hover-init st0')
+      $('#cerrar').show().attr('class', 'cursor');
 
-      $('#cerrar').click( function(){
-        $(this).hide(); 
-         
-        window.history.back(); 
-        window.close(); 
-        top.window.close(); 
-        window.top.close(self) 
+      $('#siguiente').show().attr('class', 'cursor');
+
+      $('#cerrar').click(function () {
+        window.close();
+
+      });
+
+      $('#siguiente').click(function () {
+        window.close();
+
       });
 
     }
