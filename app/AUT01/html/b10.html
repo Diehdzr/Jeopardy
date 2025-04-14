@@ -1,0 +1,158 @@
+<div class="text-center pan1 ">
+  <div class="mx-auto content-ncnt">
+    <div class="mx-auto my-auto h-100 ">
+      <div class="row mx-auto h-100">
+        <div class="col-12 p-0 mx-auto my-auto h-100">
+          <div id="pasos" class="h-100">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="audios_DL"><source type="audio/mp3"></audio>
+<a id="pdf" href="" download></a>
+
+<script>
+  $('document').ready(function() {
+    $('.next').addClass('clickDisabled');
+
+    var audios_DL = document.getElementById('audios_DL');
+    var audios_DL_index = 1;
+
+    function startAudioDL(path, index) {
+      $('#audios_DL').attr('src', 'AUT01/audio/' + path + '.mp3');
+      audios_DL_index = index;
+      audios_DL.load();
+      audios_DL.play();
+    }
+
+    function cargarSVG(svgCount) {
+      $.ajax({
+        url: 'AUT01/images/svg/b10-01.svg',
+        type: 'GET',
+        error: function(xhr, status) {
+
+        },
+        complete: function(xhr, status) {
+          $('#pasos').html(xhr.responseText);
+          svg();
+        }
+      })
+    }
+
+    cargarSVG();
+
+    videoG = false;
+    audioDL = true;
+
+    function svg() {
+
+      var tiempo = 30;
+      var id = 0;
+      var grupo = 0;
+      var puntos = 0;
+      var contador = 0;
+
+      $('#marcadorAzul').html('0')
+      $('#marcadorRojo').html('0')
+
+      function countDown(){
+        $('#cd,#CDB').show();
+
+        cronometro = setInterval(function(){
+          
+          if(tiempo == 0){
+            clearInterval(cronometro);
+          } else{
+            tiempo = tiempo - 1; 
+            $('#countDown').html(tiempo);
+          }
+          console.log(tiempo)
+        },1000);
+      }
+
+      function reset(){
+        $('#overlay,#controles,[id^=pop],#cd,#CDB').hide();
+        $('#ma,#mr').show();
+        id = 0;
+        grupo = 0;
+        tiempo = 30;
+        clearInterval(cronometro);
+        $('#countDown').html('30');
+      }
+
+      function timeOut(){
+        
+      }
+
+      function checar(){
+        if(contador == 25){
+          $('#t1').attr('class','next').click();
+        }
+      }
+
+      function valores(){
+        $('#marcadorAzul').html(puntosAzules);
+        $('#marcadorRojo').html(puntosRojos);
+      }
+
+      $('[id^=sel],[id^=res],#cd,#CDB').hide();
+
+      $('[id^=pr]').attr('class','cursor').on('click',function(){
+        numberItem = $(this).attr('id').split('-'); 
+        id = parseInt(numberItem[1],10);
+        grupo = $(this).data('grupo');
+        puntos = $(this).data('puntos');
+
+        $('#sel'+grupo+'-'+id).show();
+
+        $('#overlay,#controles').show();
+
+        $('#descubrirR,#btnEAR,#btnERR,#incorrecto,#btnEA,#btnER,#incorrectoR,#ma,#mr').hide();
+
+        $('#descubrir').show().attr('class','cursor');
+
+        $('#pop'+grupo+'-'+id).show();
+
+        countDown();
+
+        contador++;
+      })
+
+      $('#descubrir').on('click',function(){
+        $('#res'+grupo+'-'+id).show();
+        $('#incorrecto,#btnEA,#btnER').show().attr('class','cursor');
+        clearInterval(cronometro);
+      })
+
+      $('#incorrecto').on('click',function(){
+        reset();
+        checar();
+        startAudioDL('incorrecto',2);
+      })
+
+      $('#btnEA').on('click',function(){
+        puntosAzules = puntosAzules + puntos;
+        console.log('puntos azules '+puntosAzules);
+        valores();
+        reset();
+        checar();
+        startAudioDL('correcto',1);
+      })
+
+      $('#btnER').on('click',function(){
+        puntosRojos = puntosRojos + puntos;
+        console.log('puntos rojos '+puntosRojos);
+        valores();
+        reset();
+        checar();
+        startAudioDL('correcto',1);
+      })
+
+
+    }
+
+  });
+</script>

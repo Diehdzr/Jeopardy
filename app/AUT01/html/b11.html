@@ -1,0 +1,81 @@
+<div class="text-center pan1 ">
+  <div class="mx-auto content-ncnt">
+    <div class="mx-auto my-auto h-100 ">
+      <div class="row mx-auto h-100">
+        <div class="col-12 p-0 mx-auto my-auto h-100">
+          <div id="pasos" class="h-100">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="audios_DL"><source type="audio/mp3"></audio>
+<a id="pdf" href="" download></a>
+
+<script>
+  $('document').ready(function() {
+    $('.next').addClass('clickDisabled');
+
+    var audios_DL = document.getElementById('audios_DL');
+    var audios_DL_index = 1;
+
+    function startAudioDL(path, index) {
+      $('#audios_DL').attr('src', 'AUT01/audio/' + path + '.mp3');
+      audios_DL_index = index;
+      audios_DL.load();
+      audios_DL.play();
+    }
+
+    function cargarSVG(svgCount) {
+      $.ajax({
+        url: 'AUT01/images/svg/b11-01.svg',
+        type: 'GET',
+        error: function(xhr, status) {
+
+        },
+        complete: function(xhr, status) {
+          $('#pasos').html(xhr.responseText);
+          svg();
+        }
+      })
+    }
+
+    cargarSVG();
+
+    videoG = false;
+    audioDL = true;
+
+    function svg() {
+
+      if(puntosAzules == puntosRojos){
+        $('#empate').show();
+      }
+
+      if(puntosAzules > puntosRojos){
+        $('#azul').show();
+      }
+
+      if(puntosAzules < puntosRojos){
+        $('#rojo').show();
+      }
+
+      $('#marcadorAzul').html(puntosAzules)
+      $('#marcadorRojo').html(puntosRojos)
+
+      setTimeout(function(){
+        $('#btn').fadeIn().attr('class','next');
+        $('#dc').fadeIn().attr('class','flasheo');
+      },1000);
+
+      $('#btn').on('click',function() {
+        $('#btn').hide();
+        $('#btnr').show();
+      })
+
+
+    }
+
+  });
+</script>

@@ -1,0 +1,85 @@
+<!doctype html>
+  <html lang="es">
+  <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Kiubix">
+      <title>Jeopardy</title>
+      <script src="AUT01/js/modernizr.js"></script>
+      <script type="text/javascript" src="AUT01/js/jquery-2.1.3.min.js"></script>
+      <link rel="stylesheet" href="AUT01/css/estilos_slide.css">
+      <link rel="stylesheet" href="AUT01/css/estilos_global.css">
+      <link rel="stylesheet" href="AUT01/css/pre.css">
+      <link rel="stylesheet" href="AUT01/css/animaciones_slide.css">
+      <link rel="stylesheet" href="AUT01/css/animate.css">
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+ <body class="m-0 p-0"> 
+  <div class="advice-landscape">
+  </div>
+
+
+  <!--<div class="item negro"> 
+    <div class="item text-center">
+      <div class="row row-view justify-content-center">
+        <div class="d-flex" style="width:100%; height:100%;">
+          <div class="col mx-auto p-0" id="discapacidad">
+
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+  <div class=""> 
+    <div class="col-12 mx-auto wrapper my-auto px-0"></div> 
+  </div>
+
+  <a id="pdf" href="" download></a>
+  
+  <script src="//code.jquery.com/jquery.js"></script>
+  <script type="text/javascript" src="AUT01/js/TweenMax.min.js"> </script>
+  <script type="text/javascript" src="AUT01/js/Draggable.min.js"> </script>
+  <script type="text/javascript" src="AUT01/js/interaccion.js"> </script>
+  <script type="text/javascript" src="AUT01/js/jspdf.min.js"> </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script  type="text/javascript" language="JavaScript"> 
+    // $('.row-view').css("background-image", "url('assets/images/portada.png')"); 
+    $('.banderaSiguiente').show(); 
+    $('.next').addClass('clickDisabled'); 
+
+    function cargarSVG(path) {
+      $.ajax({
+        url: 'AUT01/html/' + path + '.html', 
+        type: 'GET', 
+        error: function(xhr, status) {
+
+        }, 
+        complete: function(xhr, status) {
+          $('.wrapper').html(xhr.responseText); 
+        } 
+      }) 
+    } 
+
+
+
+    cargarSVG('b1'); 
+    function downloadPDF(path){
+      $('#pdf').attr('href','AUT01/pdf/'+path+'.pdf'); 
+    } 
+    if (current_discapacidad_index==1) {
+      cargarSVG('deb_au-01'); 
+    }else if (current_discapacidad_index==2) {
+      cargarSVG('deb_vis-01'); 
+    }else {
+
+    } 
+  </script>
+  
+  </body>
+</html>

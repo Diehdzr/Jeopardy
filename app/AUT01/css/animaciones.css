@@ -1,0 +1,104 @@
+/*____________ s1 ________________*/
+.b1 {
+  -webkit-animation-delay: 13s;
+  animation-delay: 13s; }
+
+.item .s1 .s1_1 {
+  -webkit-animation-delay: 1.5s;
+  animation-delay: 1.5s; }
+
+.item .s1 .s1_2 {
+  -webkit-animation-delay: 3s;
+  animation-delay: 3s; }
+
+.item .s1 .s1_3 {
+  -webkit-animation-delay: 4.5s;
+  animation-delay: 4.5s; }
+
+.item .s1 .s1_4 {
+  -webkit-animation-delay: 6s;
+  animation-delay: 6s; }
+
+.item .s1 .s1_5 {
+  -webkit-animation-delay: 8s;
+  animation-delay: 8s; }
+
+.item .s1_6 {
+  -webkit-animation-delay: 7.5s;
+  animation-delay: 7.5s; }
+
+@-webkit-keyframes op {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes op {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-webkit-keyframes op2 {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes op2 {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-webkit-keyframes op3 {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0.4; } }
+
+@keyframes op3 {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0.4; } }
+
+.girar1 {
+  -webkit-animation: rotar1 2s infinite linear;
+  animation: rotar1 2s infinite linear; }
+
+.girar2 {
+  -webkit-animation: rotar2 2s infinite linear;
+  animation: rotar2 2s infinite linear; }
+
+@-webkit-keyframes rotar1 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
+@keyframes rotar1 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+
+@-webkit-keyframes rotar2 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(-359deg);
+    transform: rotate(-359deg); } }
+
+@keyframes rotar2 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(-359deg);
+    transform: rotate(-359deg); } }
