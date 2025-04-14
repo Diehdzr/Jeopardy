@@ -7,7 +7,9 @@
       <div class="row mx-auto h-100">
         <div class="col-12 p-0 mx-auto my-auto h-100">
           <div id="pasos" class="h-100"></div>
-          <div id="timerVisual">30</div>
+          <div id="overlay">
+            <div id="timerVisual">30</div>
+          </div>        
         </div>
       </div>
     </div>
@@ -66,30 +68,37 @@ $(document).ready(function () {
         let cronometro;
         let tiempoRestante = 30;
 
-        function iniciarCronometro() {
-          $('#timerVisual').text(tiempoRestante).css({
-            'background-color': '#000',
-            'color': '#fff'
-          }).show();
+  function iniciarCronometro() {
+      $('#timerVisual').text(tiempoRestante).css({
+        'background-color': '#000',
+        'color': '#fff'
+      }).show();
 
-          cronometro = setInterval(() => {
-            tiempoRestante--;
-            $('#timerVisual').text(tiempoRestante);
+      cronometro = setInterval(() => {
+        tiempoRestante--;
+        $('#timerVisual').text(tiempoRestante);
 
-            if (tiempoRestante <= 0) {
-              clearInterval(cronometro);
-              $('#timerVisual').text('X').css('background-color', '#e74c3c');
+        if (tiempoRestante <= 0) {
+          clearInterval(cronometro);
+          $('#timerVisual').text('X').css('background-color', '#e74c3c');
 
-              new Audio('AUT01/audio/incorrecto.mp3').play();
-              $('#reveal-cover').fadeOut(300);
+          new Audio('AUT01/audio/incorrecto.mp3').play();
+          $('#reveal-cover').fadeOut(300);
 
-              setTimeout(() => {
-                $('#timerVisual').fadeOut();
-                volverAlTablero();
-              }, 2500);
-            }
-          }, 1000);
+          // 🔒 Registrar la pregunta como usada si no se había registrado
+          if (!preguntasUsadas.includes(ultimoBotonUsado)) {
+            preguntasUsadas.push(ultimoBotonUsado);
+          }
+
+          setTimeout(() => {
+            $('#timerVisual').fadeOut();
+            volverAlTablero();
+          }, 2500);
         }
+      }, 1000);
+    }
+
+
 
         setTimeout(() => {
           iniciarCronometro();

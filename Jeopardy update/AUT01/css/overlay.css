@@ -1,0 +1,17 @@
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw; /* full pantalla */
+    height: 100vh;
+    pointer-events: none; /* para que no bloquee clics, excepto en hijos */
+    z-index: 100;
+  }
+  
+  #overlay * {
+    pointer-events: auto; /* ahora sí puedes hacer clic en moneda */
+    image-rendering: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
