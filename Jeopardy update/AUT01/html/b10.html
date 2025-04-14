@@ -1,9 +1,13 @@
+<link href="https://fonts.cdnfonts.com/css/ds-digital" rel="stylesheet">
+<link rel="stylesheet" href="AUT01/css/timer.css">
+
 <div class="text-center pan1">
   <div class="mx-auto content-ncnt">
     <div class="mx-auto my-auto h-100">
       <div class="row mx-auto h-100">
         <div class="col-12 p-0 mx-auto my-auto h-100">
           <div id="pasos" class="h-100"></div>
+          <div id="timerVisual">30</div>
         </div>
       </div>
     </div>
@@ -14,6 +18,8 @@
 <a id="pdf" href="" download></a>
 
 <script>
+window.puntosAzules = 0;
+window.puntosRojos = 0;
 let preguntasUsadas = [];
 let ultimoBotonUsado = '';
 let puntosPreguntaActual = 0;
@@ -25,7 +31,7 @@ $(document).ready(function () {
     $.ajax({
       url: 'AUT01/images/svg/b10-01.svg',
       type: 'GET',
-      complete: function(xhr) {
+      complete: function (xhr) {
         $('#pasos').html(xhr.responseText);
         svg();
         activarBotonesDePregunta();
@@ -46,94 +52,105 @@ $(document).ready(function () {
   }
 
   function cargarPreguntaSVG(nombreArchivo, puntos) {
-  const file = `AUT01/images/svg/${nombreArchivo}_${puntos}.svg`;
-  puntosPreguntaActual = parseInt(puntos);
-  ultimoBotonUsado = `btn-${nombreArchivo}-${puntos}`;
+    const file = `AUT01/images/svg/${nombreArchivo}_${puntos}.svg`;
+    puntosPreguntaActual = parseInt(puntos);
+    ultimoBotonUsado = `btn-${nombreArchivo}-${puntos}`;
 
-  $.ajax({
-    url: file,
-    type: 'GET',
-    dataType: 'text',
-    success: function (data) {
-      $('#pasos').html(data);
+    $.ajax({
+      url: file,
+      type: 'GET',
+      dataType: 'text',
+      success: function (data) {
+        $('#pasos').html(data);
 
-      let cronometro; 
-      let tiempoRestante = 30;
+        let cronometro;
+        let tiempoRestante = 30;
 
-      function iniciarCronometro() {
-        cronometro = setInterval(() => {
-          tiempoRestante--;
+        function iniciarCronometro() {
+          $('#timerVisual').text(tiempoRestante).css({
+            'background-color': '#000',
+            'color': '#fff'
+          }).show();
 
-          if (tiempoRestante <= 0) {
-            clearInterval(cronometro);
+          cronometro = setInterval(() => {
+            tiempoRestante--;
+            $('#timerVisual').text(tiempoRestante);
 
-            new Audio('AUT01/audio/incorrecto.mp3').play();
+            if (tiempoRestante <= 0) {
+              clearInterval(cronometro);
+              $('#timerVisual').text('X').css('background-color', '#e74c3c');
 
-            $('#reveal-cover').fadeOut(300);
+              new Audio('AUT01/audio/incorrecto.mp3').play();
+              $('#reveal-cover').fadeOut(300);
 
-            // Esperar un poco y volver al tablero
-            setTimeout(() => {
-              volverAlTablero();
-            }, 2000);
-          }
-        }, 1000);
-      }
+              setTimeout(() => {
+                $('#timerVisual').fadeOut();
+                volverAlTablero();
+              }, 2500);
+            }
+          }, 1000);
+        }
 
-      setTimeout(() => {
-        iniciarCronometro(); 
+        setTimeout(() => {
+          iniciarCronometro();
 
-        $('[id^=btn-]').off().on('click', function () {
-          const id = $(this).attr('id');
-          clearInterval(cronometro); // 🛑 Detener cronómetro al responder
+          $('[id^=btn-]').off().on('click', function () {
+            const id = $(this).attr('id');
 
-          if (id.startsWith('btn-dsc')) {
-            $('#reveal-cover').fadeOut(300);
-            return;
-          }
-
-          // 🟦 Azul
-          if (id.includes('btn-azul')) {
-            window.puntosAzules += puntosPreguntaActual;
-            $('#marcadorAzul').html(window.puntosAzules);
-            new Audio('AUT01/audio/correcto.mp3').play();
-          }
-
-          // 🟥 Rojo
-          if (id.includes('btn-rojo')) {
-            window.puntosRojos += puntosPreguntaActual;
-            $('#marcadorRojo').html(window.puntosRojos);
-            new Audio('AUT01/audio/correcto.mp3').play();
-          }
-
-          // ❌ Incorrecto manual
-          if (id.includes('btn-incorr')) {
-            new Audio('AUT01/audio/incorrecto.mp3').play();
-          }
-
-          if (!preguntasUsadas.includes(ultimoBotonUsado)) {
-            preguntasUsadas.push(ultimoBotonUsado);
-
-            if (preguntasUsadas.length === 25) {
-              $.ajax({
-                url: 'AUT01/html/b11.html',
-                type: 'GET',
-                success: function (xhr) {
-                  $('.wrapper').html(xhr);
-                },
-                error: function () {
-                  alert('No se pudo cargar la siguiente slide');
-                }
-              });
+            // Descubrir => solo pausa el cronómetro, no oculta el timer
+            if (id.startsWith('btn-dsc')) {
+              clearInterval(cronometro);
+              $('#reveal-cover').fadeOut(300);
               return;
             }
-          }
 
-          volverAlTablero();
-        });
-      }, 50);
-    }
-  });
-}
+            clearInterval(cronometro);
+
+            // Azul
+            if (id.includes('btn-azul')) {
+              window.puntosAzules += puntosPreguntaActual;
+              $('#marcadorAzul').html(window.puntosAzules);
+              new Audio('AUT01/audio/correcto.mp3').play();
+            }
+
+            // Rojo
+            if (id.includes('btn-rojo')) {
+              window.puntosRojos += puntosPreguntaActual;
+              $('#marcadorRojo').html(window.puntosRojos);
+              new Audio('AUT01/audio/correcto.mp3').play();
+            }
+
+            // Incorrecto manual
+            if (id.includes('btn-incorr')) {
+              new Audio('AUT01/audio/incorrecto.mp3').play();
+            }
+
+            // Guardar pregunta usada
+            if (!preguntasUsadas.includes(ultimoBotonUsado)) {
+              preguntasUsadas.push(ultimoBotonUsado);
+
+              if (preguntasUsadas.length === 25) {
+                $.ajax({
+                  url: 'AUT01/html/b11.html',
+                  type: 'GET',
+                  success: function (xhr) {
+                    $('.wrapper').html(xhr);
+                  },
+                  error: function () {
+                    alert('No se pudo cargar la siguiente slide');
+                  }
+                });
+                return;
+              }
+            }
+
+            $('#timerVisual').fadeOut();
+            volverAlTablero();
+          });
+        }, 50);
+      }
+    });
+  }
 
   function volverAlTablero() {
     $.ajax({
@@ -142,6 +159,7 @@ $(document).ready(function () {
       dataType: 'text',
       success: function (data) {
         $('#pasos').html(data);
+        $('#timerVisual').hide().text('30');
 
         setTimeout(() => {
           activarBotonesDePregunta();
@@ -151,7 +169,6 @@ $(document).ready(function () {
             const svg = document.querySelector('#pasos svg');
             const btnGroup = svg.querySelector(`#${id}`);
             const rect = btnGroup?.querySelector('rect');
-
             if (!rect || !btnGroup) return;
 
             const overlayRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
