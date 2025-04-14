@@ -48,7 +48,7 @@
   </g>
 
   <g id="reveal-cover">
-    <rect x="422" y="380" width="275" height="45" fill="#3a0ca3" />
+    <rect x="422" y="380" width="275" height="45" fill="#000026" />
   </g>
 
   <g id="btn-dsc" class="btn-pregunta" cursor="pointer">
