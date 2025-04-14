@@ -1,105 +1,172 @@
-<div class="text-center pan1 ">
-  <div class="mx-auto content-ncnt">
-    <div class="mx-auto my-auto h-100 ">
-      <div class="row mx-auto h-100">
-        <div class="col-12 p-0 mx-auto my-auto h-100">
-          <div id="pasos" class="h-100">
-          </div>
-        </div>
-      </div>
-    </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>SVG + Video con HTML Buttons</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    #pasos {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #pasos svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      object-fit: cover;
+    }
+
+    #video_gral {
+      position: absolute;
+      top: 52%;
+      left: 50%;
+      width: 47%;
+      height: 60%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      border: none;
+    }
+
+    .boton-overlay {
+      position: absolute;
+      z-index: 15;
+      width: 17%;
+      height: 7.5%;
+      top: 89%;
+      cursor: pointer;
+      display: none;
+    }
+
+    #btnInstruccionesOverlay {
+      left: 30%;
+    }
+
+    #btnJugarOverlay {
+      left: 52%;
+    }
+  </style>
+</head>
+<body>
+  <div id="pasos">
+    <video
+      id="video_gral"
+      autoplay
+      controls
+      src="AUT01/video/Mars_Video_1_corte_C_comp.mp4"
+    ></video>
+
+    <div id="btnInstruccionesOverlay" class="boton-overlay" title="Instrucciones"></div>
+    <div id="btnJugarOverlay" class="boton-overlay" title="Jugar"></div>
+    <div id="btn4" class="boton-overlay" title="Go to Slide 8" style="left: 70%; display: none;"></div>
   </div>
-</div>
 
-<audio id="audios_DL"><source type="audio/mp3"></audio>
-<a id="pdf" href="" download></a>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-  $('document').ready(function() {
-    $('.next').addClass('clickDisabled');
+  <script>
+    $(function () {
+      fetch('AUT01/images/svg/b2-01.svg?v=' + new Date().getTime())
+        .then(res => res.text())
+        .then(svgData => {
+          const wrapper = document.getElementById('pasos');
+          wrapper.insertAdjacentHTML("afterbegin", svgData);
 
-    var audios_DL = document.getElementById('audios_DL');
-    var audios_DL_index = 1;
+          const svg = document.querySelector("svg");
+          if (svg) {
+            svg.setAttribute("width", "100%");
+            svg.setAttribute("height", "100%");
+            svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
+          }
 
-    function startAudioDL(path, index) {
-      $('#audios_DL').attr('src', 'AUT01/audio/' + path + '.mp3');
-      audios_DL_index = index;
-      audios_DL.load();
-      audios_DL.play();
-    }
+          const video = document.getElementById("video_gral");
+          const btnInstrucciones = document.getElementById("btnInstruccionesOverlay");
+          const btnJugar = document.getElementById("btnJugarOverlay");
+          const btn4 = document.getElementById("btn4");
 
-    function cargarSVG(svgCount) {
-      $.ajax({
-        url: 'AUT01/images/svg/b2-01.svg',
-        type: 'GET',
-        error: function(xhr, status) {
+          video.addEventListener("timeupdate", function () {
+            if (this.currentTime >= 7 && this.currentTime < 7.2) {
+              mostrarSlide("slide2");
+              this.pause();
+            }
+          });
 
-        },
-        complete: function(xhr, status) {
-          $('#pasos').html(xhr.responseText);
-          svg();
+          video.addEventListener("ended", function () {
+            mostrarSlide("slide3");
+          });
+
+          btnInstrucciones.addEventListener("click", () => {
+            const currentSlide = obtenerSlideVisible();
+            if (currentSlide === "slide2") {
+              video.play();
+            } else if (currentSlide === "slide3") {
+              let btn = document.getElementById("btn");
+              if (!btn) {
+                btn = document.createElement("div");
+                btn.id = "btn";
+                btn.className = "next";
+                btn.style.display = "none";
+                document.body.appendChild(btn);
+              }
+              $(btn).trigger('click');
+            }
+          });
+
+          // NEW: Go to Slide 8 button click handler
+          btnJugar.addEventListener("click", () => {
+            goToSlide9();
+          });
+
+          function obtenerSlideVisible() {
+            const slides = document.querySelectorAll("svg g[id^='slide']");
+            for (const s of slides) {
+              if (s.style.display !== "none") return s.id;
+            }
+            return null;
+          }
+
+          function mostrarSlide(slideId) {
+            const allSlides = document.querySelectorAll("svg g[id^='slide']");
+            allSlides.forEach(s => s.setAttribute("style", "display:none"));
+            const slide = document.querySelector(`svg g#${slideId}`);
+            if (slide) slide.setAttribute("style", "display:inline");
+
+            const mostrar = slideId === "slide2" || slideId === "slide3";
+            btnInstrucciones.style.display = mostrar ? "block" : "none";
+            btnJugar.style.display = mostrar ? "block" : "none";
+            btnJugar.style.display = slideId === "slide3" ? "block" : "none"; // Show the "Go to Slide 8" button on slide3
+          }
+
+          // Function to go to Slide 8 (replace this with your logic to display slide 9)
+          function goToSlide9() {
+
+          no_slide = 9;
+          scormSetSlide(no_slide); // Actualiza el SCORM si estás usando seguimiento
+
+          $.ajax({
+            url: 'AUT01/html/b9.html',
+            type: 'GET',
+            success: function (response) {
+              $('.wrapper').html(response); // Reemplaza el contenido con la nueva slide
+            },
+            error: function () {
+              alert('No se pudo cargar la slide 9');
+            }
+          });
         }
-      })
-    }
 
-    cargarSVG();
-
-    videoG = false;
-    audioDL = true;
-
-    function svg() {
-
-      function playVideo(video,index){
-        videoIndex = index;
-        videoG = true;
-        audiosDL = false;
-        $('#recvideo,#fdovideo,#overlay').show();
-        //$('#playvideo').show().attr('class','cursor');
-        $('#video_gral').removeClass('forzar').attr('src','AUT01/video/'+video+'.mp4');
-        video_gral.play();
-        $('#dc-video').hide();
-      };
-
-      $('#video_gral').bind('contextmenu',function() { return false; });
-
-      playVideo('Arcelor_Video_1_corte_C_comp',1);
-
-      $('#video_gral').bind('ended',function(){
-        $('#recvideo,#playvideo,#dc,#fdovideo').hide();
-        $('#btn').show().attr('class','next');
-        $('#dc').show().attr('class','flasheo');
-      });
-
-      video_gral.addEventListener("timeupdate", function() {
-        if (this.currentTime >= 8.1 && this.currentTime <= 8.4) {
-          video_gral.pause();
-          $('#btn1,#btn2').show().attr('class','cursor');
-        } 
-        if (this.currentTime >= 14.5) {
-          $('#btn3').show().attr('class','next');
-          $('#btn4').show().attr('class','next');
-        } 
-      }, false);
-
-      $('#btn1,#btn2').on('click', function(){
-        video_gral.currentTime=8.5;
-        video_gral.play();
-        $('#btn1,#btn2').hide();
-      })
-
-      $('#btn3').on('click', function(){
-        no_slide = 2;
-        $('#btn3').hide();
-        $('#btn3r').show();
-      })
-      
-      $('#btn4').on('click', function(){
-        no_slide = 8;
-        $('#btn4').hide();
-        $('#btn4r').show();
-      })
-
-    }
-
-  });
-</script>
+        });
+    });
+  </script>
+</body>
+</html>
