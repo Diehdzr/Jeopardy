@@ -3,7 +3,15 @@
     <div class="mx-auto my-auto h-100 ">
       <div class="row mx-auto h-100">
         <div class="col-12 p-0 mx-auto my-auto h-100">
-          <div id="pasos" class="h-100">
+          <div id="pasos" class="h-100 position-relative">
+            <img id="moneda1" src="AUT01/images/general/moneda2.png"
+                 style="display:none; position:absolute; top:65%; left:50%; transform:translate(-50%,-50%); height:200px;" />
+
+            <img id="moneda2" src="AUT01/images/general/moneda1.png"
+                 style="display:none; position:absolute; top:65%; left:50%; transform:translate(-50%,-50%); height:200px;" />
+
+            <img id="monedaG" src="AUT01/video/volado_result.gif"
+                 style="display:none; position:absolute; top:65%; left:50%; transform:translate(-50%,-50%); height:200px;" />
           </div>
         </div>
       </div>
@@ -15,11 +23,9 @@
 <a id="pdf" href="" download></a>
 
 <script>
-  $('document').ready(function() {
-    $('.next').addClass('clickDisabled');
-
-    var audios_DL = document.getElementById('audios_DL');
-    var audios_DL_index = 1;
+  $(document).ready(function () {
+    const audios_DL = document.getElementById('audios_DL');
+    let audios_DL_index = 1;
 
     function startAudioDL(path, index) {
       $('#audios_DL').attr('src', 'AUT01/audio/' + path);
@@ -28,71 +34,55 @@
       audios_DL.play();
     }
 
-    function cargarSVG(svgCount) {
-      $.ajax({
-        url: 'AUT01/images/svg/b9-01.svg',
-        type: 'GET',
-        error: function(xhr, status) {
+    // Cargar SVG de fondo
+    $.ajax({
+      url: 'AUT01/images/svg/b9-01.svg',
+      type: 'GET',
+      complete: function (xhr) {
+        $('#pasos').prepend(xhr.responseText);
+        iniciarVolado();
+      }
+    });
 
-        },
-        complete: function(xhr, status) {
-          $('#pasos').html(xhr.responseText);
-          svg();
+    function iniciarVolado() {
+      startAudioDL('volado.mp3', 1);
+
+      audios_DL.addEventListener("timeupdate", function () {
+        if (this.currentTime >= 5.8 && !$('#moneda1').is(':visible')) {
+          $('#moneda1').fadeIn();
         }
-      })
-    }
-
-    cargarSVG();
-
-    videoG = false;
-    audioDL = true;
-
-    function svg() {
-
-      var volado = false;
-
-      startAudioDL('AM_912_Jeopardy_V26_AGENTE CERO.wav',1);
-
-      $('#audios_DL').bind('ended', function() {
-        if(audios_DL_index == 1){
-          $('#moneda1').attr('class','cursor');
+        if (this.currentTime >= 6.4 && !$('#moneda2').is(':visible')) {
+          $('#moneda2').fadeIn();
         }
-        
+        if (this.currentTime >= 14 && !$('#moneda2').hasClass('cursor')) {
+          $('#moneda2').addClass('cursor');
+        }
       });
 
-      audios_DL.addEventListener("timeupdate", function() {
-        if (this.currentTime >= 6.5) {
-          $('#moneda2').show();
+      let voladoEjecutado = false;
 
-        }
-        if (this.currentTime >= 7.5) {
-          $('#moneda2').hide();
-          $('#moneda1').show().attr('class','clickDisabled');
-        }
-          
-      }, false);
+      $('#moneda2').on('click', function () {
+        if (!$(this).hasClass('cursor') || voladoEjecutado) return;
 
-      $('#moneda1').on('click', function(){
-        startAudioDL('moneda.mp3',2);
-        function randomIntFromInterval(min, max) { // min and max included 
-          return Math.floor(Math.random() * (max - min + 1) + min) 
-        } 
-        const rndInt = randomIntFromInterval(1, 2);
+        voladoEjecutado = true; 
 
-        $('#moneda2, #moneda1').hide();
+        startAudioDL('moneda.mp3', 2);
+        const resultado = Math.random() < 0.5 ? 1 : 2;
+
+        $('#moneda1, #moneda2').hide();
         $('#monedaG').show();
 
-        setTimeout(function(){
-          $('#monedaG').hide(); 
-          $('#moneda'+rndInt).show();
-          $('#btn').show().attr('class','next')
-          console.log(rndInt)
-        },2000);
-          
-      }) 
+        setTimeout(() => {
+          $('#monedaG').hide();
+          const finalMoneda = $(`#moneda${resultado}`);
+          finalMoneda.show().addClass('cursor next');
 
-
+          // ✅ Segundo click: avanzar
+          finalMoneda.on('click', function () {
+            $('.next').click();
+          });
+        }, 1500);
+      });
     }
-
   });
 </script>
